@@ -1,6 +1,21 @@
 import { FormValidator } from "./formValidator.js";
 import { Card } from "./card.js";
 import {PopupWithImage} from "./popupWithImage.js";
+import { Userinfo } from "./userInfo.js";
+
+const userInfo = new Userinfo({
+  name_selector: "#profileName",
+  work_selector: "#profileAbout"
+});
+
+setTimeout(() => {
+  console.log(userInfo.getUserInfo());
+  userInfo.setUserInfo({
+    name: "Armando",
+    work: "Web Developer"
+  });
+  console.log(userInfo.getUserInfo());
+}, 3000);
 
 const Popup = document.querySelector("#Popup");
 const openPopupBtn = document.querySelector("#openPopupBtn");
