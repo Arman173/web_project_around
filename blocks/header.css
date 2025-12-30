@@ -1,0 +1,30 @@
+.header {
+  max-width: 880px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 45px;
+  border-bottom: 1px solid #fff;
+}
+.header__logo {
+  padding-bottom: 41px;
+}
+.header__line {
+  padding-bottom: 40px;
+}
+@media screen and (min-width: 320px) and (max-width: 544px) {
+  .header {
+    max-width: 320px;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 28px;
+  }
+  .header__logo {
+    padding-bottom: 32px;
+    width: 126px;
+    height: 24px;
+    padding-left: 27px;
+  }
+  .header__line {
+    padding-bottom: 42px;
+  }
+}

@@ -1,0 +1,89 @@
+.elements {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(3, 282px);
+  grid-template-rows: repeat(2, 361px);
+  column-gap: 17px;
+  row-gap: 20px;
+  padding-bottom: 67px;
+}
+.elements__article {
+  display: flex;
+  flex-direction: column;
+}
+.elements__photo {
+  width: 282px;
+  height: 282px;
+  top: 329px;
+  left: 200px;
+  border-radius: 10px 10px 0px 0px;
+  cursor: pointer;
+}
+.elements__title {
+  display: flex;
+  justify-content: space-around;
+  border-radius: 0px 0px 10px 10px;
+  background-color: #fff;
+  padding-left: 21px;
+  padding-right: 15px;
+}
+.elements__name {
+  color: #000;
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.elements__name-special {
+  color: #000;
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 29px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.elements__button {
+  border: none;
+  width: 21px;
+  height: 19px;
+  align-self: center;
+  cursor: pointer;
+  background: transparent url("../images/like.png") center no-repeat;
+}
+.elements__button-liked {
+  background: transparent url("../images/like_active.png") center no-repeat;
+}
+.elements__button:hover {
+  opacity: 60%;
+}
+.elements__delete {
+  background: transparent url("../images/Trash.svg") center no-repeat;
+  border: none;
+  width: 18px;
+  height: 19px;
+  cursor: pointer;
+  position: absolute;
+  margin: 18px 15px 248px 249px;
+}
+.elements__delete:hover {
+  opacity: 60%;
+}
+@media screen and (min-width: 320px) and (max-width: 544px) {
+  .elements {
+    grid-template-columns: 282px;
+    grid-template-rows: repeat(6, 361px);
+    row-gap: 20px;
+    padding-bottom: 50px;
+  }
+}

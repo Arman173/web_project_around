@@ -1,0 +1,120 @@
+.profile {
+  max-width: 880px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  padding-bottom: 50px;
+  padding-top: 40px;
+}
+.profile__photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-right: 30px;
+}
+.profile__info {
+  display: grid;
+  grid-template-columns: 373px 1fr;
+  grid-template-rows: 39px 1fr;
+  grid-column-gap: 18px;
+  grid-row-gap: 16px;
+  grid-template-areas:
+    "title button"
+    "subtitle subtitle";
+}
+.profile__name {
+  font-family: "Inter", sans-serif;
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 48px;
+  width: 373px;
+  height: 39px;
+  top: 181px;
+  left: 350px;
+  color: #fff;
+  margin: 0 auto;
+  grid-area: title;
+}
+.profile__subtitle {
+  width: 415px;
+  height: 22px;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: left;
+  color: #fff;
+  margin: 0 auto;
+  grid-area: subtitle;
+}
+.profile__editbtn {
+  width: 24px;
+  height: 24px;
+  grid-area: button;
+  align-self: end;
+  border: 1px solid #fff;
+  background: url(../images/Edit_button.svg) transparent center no-repeat;
+  cursor: pointer;
+}
+.profile__button {
+  background-color: transparent;
+  border: none;
+  width: 150px;
+  height: 50px;
+  margin-left: 165px;
+  border: 1px solid #fff;
+  background: url(../images/Vector_Plus.svg) transparent center no-repeat;
+  cursor: pointer;
+}
+.profile__editbtn:hover {
+  opacity: 60%;
+}
+.profile__button:hover {
+  opacity: 60%;
+}
+@media screen and (min-width: 320px) and (max-width: 544px) {
+  .profile {
+    max-width: 282px;
+    flex-direction: column;
+    padding-bottom: 36px;
+    align-items: center;
+    padding-top: 42px;
+  }
+  .profile__photo {
+    margin-bottom: 30px;
+    margin-right: 0;
+  }
+  .profile__info {
+    max-width: 224px;
+    width: 100%;
+    justify-content: center;
+    grid-template-columns: 196px 1fr;
+    grid-template-rows: 22px 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 14px;
+    padding-bottom: 36px;
+  }
+  .profile__name {
+    width: 196px;
+    height: 22px;
+    font-size: 22px;
+    line-height: 26.63px;
+    text-align: right;
+  }
+  .profile__subtitle {
+    width: 282px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+  }
+  .profile__editbtn {
+    width: 18px;
+    height: 18px;
+    background: transparent url("../images/Edit_button.svg") center no-repeat;
+  }
+  .profile__button {
+    margin: 0 auto;
+    max-width: 282px;
+    width: 100%;
+  }
+}
