@@ -4,7 +4,6 @@ export class PopupWithForm extends Popup {
     constructor(selector, handleFormSubmit) {
         super(selector);
         this._handleFormSubmit = handleFormSubmit;
-        this._form = this._popup.querySelector(".popup__form");
     }
 
     _getInputValues() {
@@ -18,6 +17,12 @@ export class PopupWithForm extends Popup {
         // heredamos el setEventListeners de Popup
         // esto para que ejecute tambien el codigo de la clase padre
         super.setEventListeners();
+
+        // obtenemos el formulario del popup
+        this._form = this._popup.querySelector(".popup__form");
+        if (!this._form) {
+            console.error("Error al obtener el formulario", this._form);
+        }
 
         // añadimos la funcionalidad del submit
         this._form.addEventListener("submit", (evt) => {

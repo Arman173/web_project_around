@@ -2,12 +2,14 @@ import { FormValidator } from "./formValidator.js";
 import { Card } from "./card.js";
 import {PopupWithImage} from "./popupWithImage.js";
 import { Userinfo } from "./userInfo.js";
+import { PopupWithForm } from "./popupWithForm.js";
 
 const userInfo = new Userinfo({
   name_selector: "#profileName",
   work_selector: "#profileAbout"
 });
 
+// prueba de la clase user info
 setTimeout(() => {
   console.log(userInfo.getUserInfo());
   userInfo.setUserInfo({
@@ -16,6 +18,11 @@ setTimeout(() => {
   });
   console.log(userInfo.getUserInfo());
 }, 3000);
+
+// prueba de la clase popupwithform
+const perfilPopup = new PopupWithForm("#Popup", formData => {
+  console.log(formData);
+});
 
 const Popup = document.querySelector("#Popup");
 const openPopupBtn = document.querySelector("#openPopupBtn");
