@@ -114,7 +114,7 @@ cardSection.renderItems();
 // 3.1 Popup de Editar Perfil
 const profilePopup = new PopupWithForm("#Popup", inputValues => {
   console.log(inputValues);
-  
+
   userInfo.setUserInfo({
     name: inputValues.name,
     work: inputValues.about
@@ -130,22 +130,21 @@ editProfileBtn.addEventListener("click", () => {
 // 3.2 Popup de Añadir Tarjeta
 const addCardPopup = new PopupWithForm("#popupPlace", inputValues => {
   console.log(inputValues);
-  
+
   // Creamos la carta usando la info del form
   const newCardElement = createCard({
     name: inputValues.title,
     link: inputValues.link
   });
-  
+
   // La agregamos al contenedor usando Section
   cardSection.addItem(newCardElement);
-  
+
   addCardPopup.close();
 });
 
 // Listener para el botón de añadir
 addCardBtn.addEventListener("click", () => {
-  addFormValidator.resetValidation(); // Para que el botón empiece desactivado
   addCardPopup.open();
 });
 
