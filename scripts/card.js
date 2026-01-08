@@ -1,36 +1,52 @@
-import { openImagePopup } from "./utils.js";
-
 export class Card {
-  constructor(title, link) {
+  /**
+   * Registra un usuario.
+   * @param {Object} config_card objeto de configuracion del Card
+   * @param {string} config_card.title Titulo del Card
+   * @param {string} config_card.link Link del Card
+   * @param {string} config_card.cardSelector Selector del Card
+   * @param {callback} config_card.handleCardClick Funcion de callback para el click
+ */
+  constructor(config_card) {
+    const { title, link, cardSelector, handleCardClick } = config_card;
     this._id = window.crypto.randomUUID();
     this._title = title;
     this._link = link;
+    this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
     this._like = false;
   }
 
   _getTemplate() {
     //Esta es la base de lo que vamos a crear (Template HTML)
     const cardTemplate = document
-      .getElementById("elements-card")
-      .content.cloneNode(true); //aqui lo clona
+      .querySelector(this._cardSelector) // buscamos el elemento mediante el selector pasado por parametro
+      .content
+      .querySelector(".elements__article")
+      .cloneNode(true); // clonamos
 
-    return cardTemplate; //ESTÁ REGRESANDO EL CLON DEL TEMPLATE
+    return cardTemplate; // regresamos el clon
   }
 
   generateCard() {
-    //Aquí se está copiando la base y se está modificando
-    const cardClone = this._getTemplate(); // Este metodo solo tiene la responsabilidad de clonar el template.
+    // obtenemos un clon del template
+    this._element = this._getTemplate(); // Este metodo solo tiene la responsabilidad de clonar el template.
 
-    const image = cardClone.querySelector(".elements__photo");
-    const cardName = cardClone.querySelector(".elements__name");
-    const likeButton = cardClone.querySelector(".elements__button");
-    const deleteButton = cardClone.querySelector(".elements__delete");
+    const image = this._element.querySelector(".elements__photo");
+    const cardName = this._element.querySelector(".elements__name");
+    const likeButton = this._element.querySelector(".elements__button");
+    const deleteButton = this._element.querySelector(".elements__delete");
 
     cardName.textContent = this._title;
     image.src = this._link;
+    image.alt = this._title;
 
+    // Acoplamiento debil
     image.addEventListener("click", () => {
-      this._openImagePopup(cardClone);
+      this._handleCardClick({
+        title: this._title,
+        link:  this._link
+      });
     });
 
     likeButton.addEventListener("click", () => {
@@ -38,14 +54,11 @@ export class Card {
       likeButton.classList.toggle("elements__button-liked");
     });
 
-    deleteButton.addEventListener("click", (evt) => {
-      evt.target.closest(".elements__article").remove();
+    deleteButton.addEventListener("click", () => {
+      this._element.remove();
     });
 
-    return cardClone;
+    return this._element;
   }
 
-  _openImagePopup() {
-    openImagePopup(this._title, this._link);
-  }
 }

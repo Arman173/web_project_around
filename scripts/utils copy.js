@@ -157,6 +157,3 @@ addFormValidator.enableValidation();
 export { 
   openImagePopup,
 };
-// import {PopupWithImage} from "./popupWithImage.js";
-// const popupImage = new PopupWithImage("#imagePopup");
-// export const openImagePopup = (name, src) => popupImage.open(name, src);
