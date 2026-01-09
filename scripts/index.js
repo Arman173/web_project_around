@@ -124,6 +124,7 @@ const profilePopup = new PopupWithForm("#Popup", inputValues => {
 
 // Listener para el botón de editar
 editProfileBtn.addEventListener("click", () => {
+  profileFormValidator.resetValidation();
   profilePopup.open();
 });
 
@@ -145,6 +146,7 @@ const addCardPopup = new PopupWithForm("#popupPlace", inputValues => {
 
 // Listener para el botón de añadir
 addCardBtn.addEventListener("click", () => {
+  addFormValidator.resetValidation();
   addCardPopup.open();
 });
 

@@ -67,6 +67,17 @@ class FormValidator {
   enableValidation() {
     this._setEventListeners();
   }
+
+  // Método público para resetear validaciones
+  resetValidation() {
+    // Quita errores de todos los inputs
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
+
+    // Resetea el estado del botón
+    this._toggleButtonState();
+  }
 }
 
 export { FormValidator };
