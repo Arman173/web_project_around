@@ -1,9 +1,9 @@
-import { Card } from "./card.js";
-import { FormValidator } from "./formValidator.js";
-import { Section } from "./section.js";
-import { PopupWithImage } from "./popupWithImage.js";
-import { PopupWithForm } from "./popupWithForm.js";
-import { Userinfo } from "./userInfo.js";
+import { Card } from "../components/card.js";
+import { FormValidator } from "../components/formValidator.js";
+import { Section } from "../components/section.js";
+import { PopupWithImage } from "../components/popupWithImage.js";
+import { PopupWithForm } from "../components/popupWithForm.js";
+import { Userinfo } from "../components/userInfo.js";
 
 const initialCards = [
   {
