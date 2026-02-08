@@ -4,55 +4,53 @@ import { Section } from "../components/section.js";
 import { PopupWithImage } from "../components/popupWithImage.js";
 import { PopupWithForm } from "../components/popupWithForm.js";
 import { Userinfo } from "../components/userInfo.js";
+import { Api } from "../components/Api.js";
 
-const initialCards = [
-  {
-    name: "Valle de Yosemite",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/yosemite.jpg",
-    like: false,
-    id: 1,
+// const initialCards = [
+//   {
+//     name: "Valle de Yosemite",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/yosemite.jpg",
+//     like: false,
+//     id: 1,
+//   },
+//   {
+//     name: "Lago Louise",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lake-louise.jpg",
+//     like: false,
+//     id: 2,
+//   },
+//   {
+//     name: "Montañas Calvas",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/bald-mountains.jpg",
+//     like: false,
+//     id: 3,
+//   },
+//   {
+//     name: "Latemar",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/latemar.jpg",
+//     like: false,
+//     id: 4,
+//   },
+//   {
+//     name: "Parque Nacional de la Vanoise",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/vanoise.jpg",
+//     like: false,
+//     id: 5,
+//   },
+//   {
+//     name: "Lago di Braies",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lago.jpg",
+//     like: false,
+//     id: 6,
+//   },
+// ];
+const api = new Api({
+  baseUrl: "https://around-api.es.tripleten-services.com/v1/",
+  headers: {
+    authorization: "270223bd-c9b7-4c65-8b92-afc11ab42b37",
+    "Content-Type": "application/json",
   },
-  {
-    name: "Lago Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lake-louise.jpg",
-    like: false,
-    id: 2,
-  },
-  {
-    name: "Montañas Calvas",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/bald-mountains.jpg",
-    like: false,
-    id: 3,
-  },
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/latemar.jpg",
-    like: false,
-    id: 4,
-  },
-  {
-    name: "Parque Nacional de la Vanoise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/vanoise.jpg",
-    like: false,
-    id: 5,
-  },
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lago.jpg",
-    like: false,
-    id: 6,
-  },
-];
-
-// const cardRenderer = (item) => {
-//   const card = new Card(item.name, item.link);
-//   return card.generateCard();
-// };
-
-// const cardSection = new Section(
-//   { items: initialCards, renderer: cardRenderer },
-//   document.querySelector("#elements")
-// );
+});
 
 const validationConfig = {
   inputSelector: ".popup__input",
@@ -73,6 +71,15 @@ const userInfo = new Userinfo({
   name_selector: "#profileName",
   about_selector: "#profileAbout"
 });
+
+api.getUserInfo()
+  .then(userData => {
+    console.log("Datos del usuario:", userData);
+    userInfo.setUserInfo({
+      name: userData.name,
+      work: userData.about
+    });
+  });
 
 // 1.2 PopupWithImage
 const imagePopup = new PopupWithImage("#imagePopup");
@@ -96,7 +103,7 @@ function createCard(item) {
 
 // Section: Se encarga de pintar la lista inicial
 const cardSection = new Section({
-  items: initialCards,
+  items: [],
   renderer: (item) => {
     const cardElement = createCard(item);
 
@@ -106,20 +113,36 @@ const cardSection = new Section({
     // contenedor de las cards
 }, "#elements");
 
-// Pintamos las tarjetas iniciales
-cardSection.renderItems();
+// Cargamos las cards iniciales desde la API
+api.getInitialCards()
+  .then(initialCards => {
+    console.log("Tarjetas iniciales:", initialCards);
+    cardSection.assignItems(initialCards);
+    cardSection.renderItems();
+  });
 
 // --- 3. Popups con Formularios ---
 
 // 3.1 Popup de Editar Perfil
 const profilePopup = new PopupWithForm("#Popup", inputValues => {
   console.log(inputValues);
+  const { name, about } = inputValues;
 
-  userInfo.setUserInfo({
-    name: inputValues.name,
-    work: inputValues.about
-  });
-  profilePopup.close();
+  api.updateUserInfo({name, about})
+    .then(res => {
+      console.log("Respuesta de actualización:", res);
+      userInfo.setUserInfo({
+        name: res.name,
+        work: res.about
+      });
+    })
+    .catch(err => {
+      console.error("Error al actualizar el perfil:", err);
+    })
+    .finally(() => {
+      console.log("Proceso de actualización finalizado");
+      profilePopup.close();
+    });
 });
 
 // Listener para el botón de editar
@@ -131,17 +154,26 @@ editProfileBtn.addEventListener("click", () => {
 // 3.2 Popup de Añadir Tarjeta
 const addCardPopup = new PopupWithForm("#popupPlace", inputValues => {
   console.log(inputValues);
+  const { title, link } = inputValues;
 
-  // Creamos la carta usando la info del form
-  const newCardElement = createCard({
-    name: inputValues.title,
-    link: inputValues.link
-  });
+  api.addCard({ name: title, link })
+    .then(newCardData => {
+      console.log("Tarjeta añadida:", newCardData);
+      const { name, link } = newCardData;
 
-  // La agregamos al contenedor usando Section
-  cardSection.addItem(newCardElement);
+      // Creamos la carta usando la info de la respuesta de la API
+      const newCardElement = createCard({name, link});
 
-  addCardPopup.close();
+      // La agregamos al contenedor usando Section
+      cardSection.addItem(newCardElement);
+    })
+    .catch(err => {
+      console.error("Error al añadir la tarjeta:", err);
+    })
+    .finally(() => {
+      console.log("Proceso de añadir tarjeta finalizado");
+      addCardPopup.close();
+    });
 });
 
 // Listener para el botón de añadir

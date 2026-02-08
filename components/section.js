@@ -17,4 +17,8 @@ export class Section {
   addItem(element) {
     this._container.append(element);
   }
+
+  assignItems(items) {
+    this._items = items;
+  }
 }
