@@ -8,13 +8,15 @@ export class Card {
    * @param {callback} config_card.handleCardClick Funcion de callback para el click
  */
   constructor(config_card) {
-    const { title, link, cardSelector, handleCardClick } = config_card;
-    this._id = window.crypto.randomUUID();
-    this._title = title;
-    this._link = link;
+    const { cardData, cardSelector, handles } = config_card;
+    this._id = cardData._id;
+    this._name = cardData.name;
+    this._link = cardData.link;
+    this._like = cardData.isLiked;
     this._cardSelector = cardSelector;
-    this._handleCardClick = handleCardClick;
-    this._like = false;
+    this._handleCardClick = handles.handleCardClick;
+    this._handleLike = handles.handleLike;
+    this._handleDelete = handles.handleDelete;
   }
 
   _getTemplate() {
@@ -37,28 +39,41 @@ export class Card {
     const likeButton = this._element.querySelector(".elements__button");
     const deleteButton = this._element.querySelector(".elements__delete");
 
-    cardName.textContent = this._title;
+    cardName.textContent = this._name;
     image.src = this._link;
-    image.alt = this._title;
+    image.alt = this._name;
 
     // Acoplamiento debil
     image.addEventListener("click", () => {
       this._handleCardClick({
-        title: this._title,
+        name: this._name,
         link:  this._link
       });
     });
 
     likeButton.addEventListener("click", () => {
-      this._like = !this._like;
-      likeButton.classList.toggle("elements__button-liked");
+      this._handleLike(this._like, likeButton);
+      // this._like = !this._like;
+      // likeButton.classList.toggle("elements__button-liked");
     });
 
     deleteButton.addEventListener("click", () => {
-      this._element.remove();
+      this._handleDelete(this._id);
     });
 
     return this._element;
   }
 
+  removeCard() {
+    this._element.remove();
+  }
+
+}
+
+export function toggleLike(like, likeBtn) {
+  if (like) {
+    likeBtn.classList.add("elements__button-liked");
+  } else {
+    likeBtn.classList.remove("elements__button-liked");
+  }
 }

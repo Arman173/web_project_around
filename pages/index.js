@@ -90,12 +90,19 @@ const imagePopup = new PopupWithImage("#imagePopup");
 // La necesitamos en dos lugares: al cargar la página y al añadir una nueva.
 function createCard(item) {
   const card = new Card({
-    title: item.name,
-    link: item.link,
+    cardData: item,
     cardSelector: "#elements-card",
-    handleCardClick: cardData => {
-      const { title, link } = cardData;
-      imagePopup.open(title, link);
+    handles: {
+      handleCardClick: cardData => {
+        const { title, link } = cardData;
+        imagePopup.open(title, link);
+      },
+      handleLike: (isLiked, likeButton) => {
+        console.log("Estado actual del like:", isLiked, likeButton);
+      },
+      handleDelete: (cardId) => {
+        console.log("ID de la tarjeta a eliminar:", cardId);
+      }
     }
   });
   return card.generateCard();
