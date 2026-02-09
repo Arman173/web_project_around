@@ -7,44 +7,6 @@ import { PopupWithConfirmation } from "../components/popupWithConfirmation.js";
 import { Userinfo } from "../components/userInfo.js";
 import { Api } from "../components/Api.js";
 
-// const initialCards = [
-//   {
-//     name: "Valle de Yosemite",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/yosemite.jpg",
-//     like: false,
-//     id: 1,
-//   },
-//   {
-//     name: "Lago Louise",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lake-louise.jpg",
-//     like: false,
-//     id: 2,
-//   },
-//   {
-//     name: "Montañas Calvas",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/bald-mountains.jpg",
-//     like: false,
-//     id: 3,
-//   },
-//   {
-//     name: "Latemar",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/latemar.jpg",
-//     like: false,
-//     id: 4,
-//   },
-//   {
-//     name: "Parque Nacional de la Vanoise",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/vanoise.jpg",
-//     like: false,
-//     id: 5,
-//   },
-//   {
-//     name: "Lago di Braies",
-//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/new-markets/WEB_sprint_5/ES/lago.jpg",
-//     like: false,
-//     id: 6,
-//   },
-// ];
 const api = new Api({
   baseUrl: "https://around-api.es.tripleten-services.com/v1/",
   headers: {
@@ -91,7 +53,8 @@ const imagePopup = new PopupWithImage("#imagePopup");
 // 1.3 PopupWithConfirmation para confirmar el delete de cards
 let cardToDelete = null; // Variable para almacenar la tarjeta a eliminar
 const confirmPopup = new PopupWithConfirmation("#PopupConfirm", () => {
-  console.log("Botón de confirmación clickeado");
+  console.log("Realizando Delete");
+  confirmPopup.setBtnText("Eliminando...");
   api.deleteCard(cardToDelete._id)
     .then(() => {
       console.log("Tarjeta eliminada exitosamente");
@@ -131,15 +94,6 @@ function createCard(item) {
         console.log("Tarjeta a eliminar:", card);
         cardToDelete = card; // Guardamos la tarjeta a eliminar
         confirmPopup.open();
-        // api.deleteCard(card._id)
-        //   .then(() => {
-        //     console.log("Tarjeta eliminada exitosamente");
-        //     card.removeCard();
-        //     confirmPopup.close();
-        //   })
-        //   .catch(err => {
-        //     console.error("Error al eliminar la tarjeta:", err);
-        //   });
       }
     }
   });
@@ -172,6 +126,8 @@ api.getInitialCards()
 const profilePopup = new PopupWithForm("#Popup", inputValues => {
   console.log(inputValues);
   const { name, about } = inputValues;
+  console.log("Actualizando perfil...");
+  profilePopup.setBtnText("Guardando...");
 
   api.updateUserInfo({name, about})
     .then(res => {
@@ -224,6 +180,8 @@ profilePhoto.addEventListener("click", () => {
 const addCardPopup = new PopupWithForm("#popupPlace", inputValues => {
   console.log(inputValues);
   const { title, link } = inputValues;
+  console.log("Añadiendo tarjeta...");
+  addCardPopup.setBtnText("Guardando...");
 
   api.addCard({ name: title, link })
     .then(newCardData => {

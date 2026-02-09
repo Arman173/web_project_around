@@ -6,7 +6,7 @@
   padding-bottom: 50px;
   padding-top: 40px;
 }
-/* 1. El contenedor define el tamaño y la posición */
+/* El contenedor define el tamaño y la posición */
 .profile__avatar-container {
   position: relative; /* Necesario para posicionar el icono encima */
   width: 120px;
@@ -22,7 +22,7 @@
   object-fit: cover; /* Asegura que la imagen cubra el contenedor sin distorsión */
   margin-right: 0;
 }
-/* 3. El Overlay (Capa oscura + Icono) */
+/* El Overlay (Capa oscura + Icono) */
 .profile__avatar-container::after {
   content: "";
   position: absolute;
@@ -39,7 +39,7 @@
   transition: opacity 0.3s ease;
 }
 
-/* 4. Al pasar el mouse sobre el contenedor, mostrar el overlay */
+/* Al pasar el mouse sobre el contenedor, mostrar el overlay */
 .profile__avatar-container:hover::after {
   opacity: 1;
 }

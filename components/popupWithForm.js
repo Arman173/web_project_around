@@ -18,6 +18,12 @@ export class PopupWithForm extends Popup {
         // esto para que ejecute tambien el codigo de la clase padre
         super.setEventListeners();
 
+        this._popupButton = this._popup.querySelector(".popup__button");
+        if (!this._popupButton) {
+            console.error("Error al obtener el botón del popup", this._popupButton);
+        }
+        this._textButton = this._popupButton.textContent;
+
         // obtenemos el formulario del popup
         this._form = this._popup.querySelector(".popup__form");
         if (!this._form) {
@@ -39,9 +45,18 @@ export class PopupWithForm extends Popup {
         });
     }
 
+    setBtnText(text) {
+        if (this._popupButton) {
+            this._popupButton.textContent = text;
+        }
+    }
+
     close() {
         // ejecutamos tambien lo que tiene la clase padre Popup
         super.close();
+
+        // restablecemos el texto del botón
+        this._popupButton.textContent = this._textButton;
 
         // restablecemos el formulario
         this._form.reset();
