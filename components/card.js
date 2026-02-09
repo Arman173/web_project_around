@@ -52,13 +52,14 @@ export class Card {
     });
 
     likeButton.addEventListener("click", () => {
-      this._handleLike(this._like, likeButton);
+      this._like = !this._like;
+      this._handleLike(this, likeButton);
       // this._like = !this._like;
       // likeButton.classList.toggle("elements__button-liked");
     });
 
     deleteButton.addEventListener("click", () => {
-      this._handleDelete(this._id);
+      this._handleDelete(this);
     });
 
     return this._element;
@@ -70,7 +71,7 @@ export class Card {
 
 }
 
-export function toggleLike(like, likeBtn) {
+export function updateBtnLike(like, likeBtn) {
   if (like) {
     likeBtn.classList.add("elements__button-liked");
   } else {

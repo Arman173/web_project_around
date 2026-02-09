@@ -14,7 +14,11 @@
 .popup__content {
   background: #fff;
   width: 430px;
-  height: 330px;
+  /* Cambios para un cambio dinamico de altura del contenedor del popup */
+  height: auto;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+  /* termino de los cambios del height */
   border-radius: 10px;
   position: relative;
   z-index: 2;   /* tendra 2 para estar encima del overlay */
@@ -44,6 +48,12 @@
   flex-direction: column;
   align-items: center;
 }
+.popup__confirmation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .popup__text {
   width: 360px;
   height: 23px;

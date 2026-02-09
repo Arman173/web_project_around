@@ -31,6 +31,27 @@ export class Api {
         });
     }
 
+    deleteCard(cardId) {
+        return fetch(`${this._baseUrl}cards/${cardId}`, {
+            method: 'DELETE',
+            headers: this._headers
+        })
+        .then(res => {
+            if (!res.ok) {
+                return Promise.reject(`Error: ${res.status}`);
+            }
+            return res.json();
+        });
+    }
+
+    likeCard(cardId, like = true) {
+        const method = like ? 'PUT' : 'DELETE';
+        return fetch(`${this._baseUrl}cards/likes/${cardId}`, {
+            method: method,
+            headers: this._headers
+        });
+    }
+
     getUserInfo() {
         return fetch(`${this._baseUrl}users/me`, {
             headers: this._headers

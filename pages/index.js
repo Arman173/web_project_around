@@ -3,6 +3,7 @@ import { FormValidator } from "../components/formValidator.js";
 import { Section } from "../components/section.js";
 import { PopupWithImage } from "../components/popupWithImage.js";
 import { PopupWithForm } from "../components/popupWithForm.js";
+import { PopupWithConfirmation } from "../components/popupWithConfirmation.js";
 import { Userinfo } from "../components/userInfo.js";
 import { Api } from "../components/Api.js";
 
@@ -83,6 +84,20 @@ api.getUserInfo()
 
 // 1.2 PopupWithImage
 const imagePopup = new PopupWithImage("#imagePopup");
+// 1.3 PopupWithConfirmation para confirmar el delete de cards
+let cardToDelete = null; // Variable para almacenar la tarjeta a eliminar
+const confirmPopup = new PopupWithConfirmation("#PopupConfirm", () => {
+  console.log("Botón de confirmación clickeado");
+  api.deleteCard(cardToDelete._id)
+    .then(() => {
+      console.log("Tarjeta eliminada exitosamente");
+      cardToDelete.removeCard();
+      confirmPopup.close();
+    })
+    .catch(err => {
+      console.error("Error al eliminar la tarjeta:", err);
+    });
+});
 
 // --- 2. Lógica de las Tarjetas (Card y Section) ---
 
@@ -100,8 +115,19 @@ function createCard(item) {
       handleLike: (isLiked, likeButton) => {
         console.log("Estado actual del like:", isLiked, likeButton);
       },
-      handleDelete: (cardId) => {
-        console.log("ID de la tarjeta a eliminar:", cardId);
+      handleDelete: card => {
+        console.log("Tarjeta a eliminar:", card);
+        cardToDelete = card; // Guardamos la tarjeta a eliminar
+        confirmPopup.open();
+        // api.deleteCard(card._id)
+        //   .then(() => {
+        //     console.log("Tarjeta eliminada exitosamente");
+        //     card.removeCard();
+        //     confirmPopup.close();
+        //   })
+        //   .catch(err => {
+        //     console.error("Error al eliminar la tarjeta:", err);
+        //   });
       }
     }
   });
