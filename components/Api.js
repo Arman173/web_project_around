@@ -77,4 +77,18 @@ export class Api {
             return res.json();
         });
     }
+
+    updateProfilePicture(avatar) {
+        return fetch(`${this._baseUrl}users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({ avatar })
+        })
+        .then(res => {
+            if (!res.ok) {
+                return Promise.reject(`Error: ${res.status}`);
+            }
+            return res.json();
+        });
+    }
 }

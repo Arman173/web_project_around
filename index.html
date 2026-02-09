@@ -20,11 +20,13 @@
       </header>
       <main class="content">
         <section class="profile">
-          <img
-            src="./images/profile.JPG"
-            alt="profile_photo"
-            class="profile__photo"
-          />
+          <div id="profileAvatarContainer" class="profile__avatar-container">
+            <img
+              src="./images/profile.JPG"
+              alt="profile_photo"
+              class="profile__photo"
+            />
+          </div>
           <div class="profile__info">
             <h1 id="profileName" class="profile__name">Cargando...</h1>
             <h2 id="profileAbout" class="profile__subtitle">...</h2>
@@ -133,6 +135,27 @@
               <p class="popup__text">¿Estás seguro/a?</p>
               <button class="popup__button" id="inputConfirmButton">Sí</button>
             </div>
+          </div>
+        </div>
+
+        <div class="popup" id="PopupAvatar">
+          <div class="popup__overlay" id="avatarOverlay"></div>
+          <div class="popup__content">
+            <button class="popup__close popup__closebtn" id="closePopupBtn"></button>
+            <form id="avatarForm" class="popup__form" novalidate>
+              <p class="popup__text">Cambiar foto de perfil</p>
+              <input
+                type="url"
+                placeholder="Link de la imagen"
+                class="popup__input popup__input-name"
+                name="avatar"
+                minlength="2"
+                id="inputAvatar"
+                required
+              />
+              <span class="popup__input-error popup__input--error-web" id="inputAvatar-error">Por favor, introduce una página web válida</span>
+              <button class="popup__button" type="submit" id="inputAvatarButton" disabled>Guardar</button>
+            </form>
           </div>
         </div>
 

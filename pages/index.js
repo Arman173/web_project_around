@@ -64,6 +64,9 @@ const validationConfig = {
 // Botones para abrir popups
 const editProfileBtn = document.querySelector("#openPopupBtn");
 const addCardBtn = document.querySelector("#openAddBtn");
+const profilePhoto = document.querySelector("#profileAvatarContainer");
+// imagen de perfil
+const profilePhotoImg = document.querySelector(".profile__photo");
 
 // --- 1. Instancias Globales ---
 
@@ -76,6 +79,7 @@ const userInfo = new Userinfo({
 api.getUserInfo()
   .then(userData => {
     console.log("Datos del usuario:", userData);
+    profilePhotoImg.src = userData.avatar;
     userInfo.setUserInfo({
       name: userData.name,
       work: userData.about
@@ -186,10 +190,34 @@ const profilePopup = new PopupWithForm("#Popup", inputValues => {
     });
 });
 
+// 3.2 Popup de Editar Foto de Perfil
+const profilePhotoPopup = new PopupWithForm("#PopupAvatar", inputValues => {
+  console.log(inputValues);
+  const { avatar } = inputValues;
+  api.updateProfilePicture(avatar)
+    .then(res => {
+      console.log("Respuesta de actualización de avatar:", res);
+      profilePhotoImg.src = res.avatar;
+    })
+    .catch(err => {
+      console.error("Error al actualizar el avatar:", err);
+    })
+    .finally(() => {
+      console.log("Proceso de actualización de avatar finalizado");
+      profilePhotoPopup.close();
+    });
+});
+
 // Listener para el botón de editar
 editProfileBtn.addEventListener("click", () => {
   profileFormValidator.resetValidation();
   profilePopup.open();
+});
+
+// Listener para el click en la foto de perfil
+profilePhoto.addEventListener("click", () => {
+  profileFormValidator.resetValidation();
+  profilePhotoPopup.open();
 });
 
 // 3.2 Popup de Añadir Tarjeta
@@ -227,6 +255,9 @@ addCardBtn.addEventListener("click", () => {
 
 const profileFormValidator = new FormValidator(validationConfig, document.querySelector("#form"));
 profileFormValidator.enableValidation();
+
+const profilePhotoFormValidator = new FormValidator(validationConfig, document.querySelector("#avatarForm"));
+profilePhotoFormValidator.enableValidation();
 
 const addFormValidator = new FormValidator(validationConfig, document.querySelector("#formAdd"));
 addFormValidator.enableValidation();
