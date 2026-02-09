@@ -42,6 +42,7 @@ export class Card {
     cardName.textContent = this._name;
     image.src = this._link;
     image.alt = this._name;
+    updateBtnLike(this._like, likeButton);
 
     // Acoplamiento debil
     image.addEventListener("click", () => {

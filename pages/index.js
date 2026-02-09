@@ -1,4 +1,4 @@
-import { Card } from "../components/card.js";
+import { Card, updateBtnLike } from "../components/card.js";
 import { FormValidator } from "../components/formValidator.js";
 import { Section } from "../components/section.js";
 import { PopupWithImage } from "../components/popupWithImage.js";
@@ -112,8 +112,16 @@ function createCard(item) {
         const { title, link } = cardData;
         imagePopup.open(title, link);
       },
-      handleLike: (isLiked, likeButton) => {
-        console.log("Estado actual del like:", isLiked, likeButton);
+      handleLike: (cardData, likeButton) => {
+        console.log("Estado actual del like:", cardData, likeButton);
+        api.likeCard(cardData._id, cardData._like)
+          .then(() => {
+            console.log("Like actualizado en el servidor");
+            updateBtnLike(cardData._like, likeButton);
+          })
+          .catch(err => {
+            console.error("Error al actualizar el like:", err);
+          });
       },
       handleDelete: card => {
         console.log("Tarjeta a eliminar:", card);
