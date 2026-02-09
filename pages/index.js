@@ -38,15 +38,15 @@ const userInfo = new Userinfo({
   about_selector: "#profileAbout"
 });
 
-api.getUserInfo()
-  .then(userData => {
-    console.log("Datos del usuario:", userData);
-    profilePhotoImg.src = userData.avatar;
-    userInfo.setUserInfo({
-      name: userData.name,
-      work: userData.about
-    });
-  });
+// api.getUserInfo()
+//   .then(userData => {
+//     console.log("Datos del usuario:", userData);
+//     profilePhotoImg.src = userData.avatar;
+//     userInfo.setUserInfo({
+//       name: userData.name,
+//       work: userData.about
+//     });
+//   });
 
 // 1.2 PopupWithImage
 const imagePopup = new PopupWithImage("#imagePopup");
@@ -113,11 +113,34 @@ const cardSection = new Section({
 }, "#elements");
 
 // Cargamos las cards iniciales desde la API
-api.getInitialCards()
-  .then(initialCards => {
-    console.log("Tarjetas iniciales:", initialCards);
+// api.getInitialCards()
+//   .then(initialCards => {
+//     console.log("Tarjetas iniciales:", initialCards);
+//     cardSection.assignItems(initialCards);
+//     cardSection.renderItems();
+//   });
+
+// CARGAMOS LOS DATOS DEL USUARIO Y LAS CARDS INICIALES CON PROMISE.ALL DE API.GETAPPINFO
+api.getAppInfo()
+  .then(([userData, initialCards]) => {
+    // 1. Procesamos la Info del Usuario (userData es el primer resultado del array)
+    console.log("Datos del usuario cargados:", userData);
+    
+    // Establecemos nombre, trabajo y foto
+    userInfo.setUserInfo({
+      name: userData.name,
+      work: userData.about
+    });
+    profilePhotoImg.src = userData.avatar;
+
+    // 2. Procesamos las Tarjetas (initialCards es el segundo resultado)
+    console.log("Tarjetas iniciales cargadas:", initialCards);
+    
     cardSection.assignItems(initialCards);
     cardSection.renderItems();
+  })
+  .catch(err => {
+    console.error("Error al cargar los datos iniciales:", err);
   });
 
 // --- 3. Popups con Formularios ---

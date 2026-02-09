@@ -91,4 +91,8 @@ export class Api {
             return res.json();
         });
     }
+
+    getAppInfo() {
+        return Promise.all([this.getUserInfo(), this.getInitialCards()]);
+    }
 }
