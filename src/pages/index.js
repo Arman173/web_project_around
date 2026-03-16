@@ -10,7 +10,7 @@ import { Api } from "../components/Api.js";
 const api = new Api({
   baseUrl: "https://around-api.es.tripleten-services.com/v1/",
   headers: {
-    authorization: "270223bd-c9b7-4c65-8b92-afc11ab42b37",
+    authorization: "fac6cd54-2523-46a9-b48f-7ffb03a38cbb",
     "Content-Type": "application/json",
   },
 });
@@ -37,16 +37,6 @@ const userInfo = new Userinfo({
   name_selector: "#profileName",
   about_selector: "#profileAbout"
 });
-
-// api.getUserInfo()
-//   .then(userData => {
-//     console.log("Datos del usuario:", userData);
-//     profilePhotoImg.src = userData.avatar;
-//     userInfo.setUserInfo({
-//       name: userData.name,
-//       work: userData.about
-//     });
-//   });
 
 // 1.2 PopupWithImage
 const imagePopup = new PopupWithImage("#imagePopup");
@@ -112,14 +102,6 @@ const cardSection = new Section({
     // contenedor de las cards
 }, "#elements");
 
-// Cargamos las cards iniciales desde la API
-// api.getInitialCards()
-//   .then(initialCards => {
-//     console.log("Tarjetas iniciales:", initialCards);
-//     cardSection.assignItems(initialCards);
-//     cardSection.renderItems();
-//   });
-
 // CARGAMOS LOS DATOS DEL USUARIO Y LAS CARDS INICIALES CON PROMISE.ALL DE API.GETAPPINFO
 api.getAppInfo()
   .then(([userData, initialCards]) => {
@@ -173,6 +155,8 @@ const profilePopup = new PopupWithForm("#Popup", inputValues => {
 const profilePhotoPopup = new PopupWithForm("#PopupAvatar", inputValues => {
   console.log(inputValues);
   const { avatar } = inputValues;
+  profilePhotoPopup.setBtnText("Guardando...");
+  
   api.updateProfilePicture(avatar)
     .then(res => {
       console.log("Respuesta de actualización de avatar:", res);
